@@ -1,0 +1,81 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:padding="@dimen/padding_5"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="10dp"
+        android:background="@drawable/right_triangle"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/corner"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="10dp">
+
+    </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/margin_200"
+        app:layout_constraintTop_toTopOf="@id/corner"
+        app:layout_constraintEnd_toStartOf="@id/corner"
+        android:layout_height="wrap_content">
+        <com.google.android.flexbox.FlexboxLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:flexDirection="row_reverse"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:flexWrap="wrap_reverse"
+            app:alignItems="flex_start"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:background="@drawable/round_corner"
+            android:id="@+id/parentPanel"
+            android:padding="@dimen/margin_5">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/margin_3"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_3">
+
+                <TextView
+                    android:id="@+id/timeStamp"
+                    android:layout_width="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_8"
+                    tools:text="03:00PM" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/timeStamp"
+                    app:layout_constraintBottom_toBottomOf="@id/timeStamp"
+                    android:layout_marginLeft="@dimen/margin_2"
+                    android:id="@+id/msg_status"
+                    app:layout_constraintStart_toEndOf="@id/timeStamp"
+                    android:layout_height="0dp"
+                    app:srcCompat="@drawable/ic_message_waiting"
+                    android:layout_marginStart="@dimen/margin_2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/msgSnd"
+                android:layout_width="wrap_content"
+                app:layout_constraintWidth_max="@dimen/margin_200"
+                tools:text="auisdhufhhhhisjijifodoakosdk"
+                android:layout_height="wrap_content"
+                android:textColor="#000000" />
+
+
+        </com.google.android.flexbox.FlexboxLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

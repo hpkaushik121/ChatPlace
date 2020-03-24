@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ChatPlace</string>
+    <string name="time">last seen at 01:00 PM</string>
+    <string name="message">Message</string>
+    <string name="generic_last_seen">last seen at %s</string>
+    <string name="type_message">Type a message</string>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <include android:id="@+id/message_rcv"
+        android:visibility="gone"
+        layout="@layout/message_receive_layout"/>
+    <include android:id="@+id/message_send"
+        layout="@layout/message_send_layout"
+        android:visibility="gone"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
