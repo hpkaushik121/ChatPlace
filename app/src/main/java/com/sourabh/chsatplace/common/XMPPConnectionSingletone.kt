@@ -1,30 +1,23 @@
 package com.sourabh.chsatplace.common
 
-import android.content.Context
-import com.google.gson.Gson
 import com.sourabh.chsatplace.ChatApplication
 import com.sourabh.chsatplace.interfaces.DeliveryListener
 import com.sourabh.chsatplace.interfaces.MessageListener
 import com.sourabh.chsatplace.interfaces.TypingListener
-import com.sourabh.chsatplace.network.CheckUnsentMessages
-import com.sourabh.chsatplace.pojo.FirebaseMessageModel
-import com.sourabh.chsatplace.pojo.MessageModel
-import com.sourabh.chsatplace.respository.ChatRepository
-import com.sourabh.chsatplace.utilities.Acknowledgement
-import com.sourabh.chsatplace.utilities.Logger
-import org.jivesoftware.smack.*
+import org.jivesoftware.smack.ConnectionConfiguration
+import org.jivesoftware.smack.ReconnectionManager
+import org.jivesoftware.smack.XMPPConnection
 import org.jivesoftware.smack.chat2.ChatManager
+import org.jivesoftware.smack.filter.StanzaTypeFilter
 import org.jivesoftware.smack.packet.Message
 import org.jivesoftware.smack.packet.Presence
 import org.jivesoftware.smack.tcp.XMPPTCPConnection
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration
-import org.jivesoftware.smackx.ping.PingFailedListener
 import org.jivesoftware.smackx.receipts.DeliveryReceiptManager
 import org.jxmpp.jid.impl.JidCreate
 import org.jxmpp.jid.parts.Resourcepart
-import java.io.IOException
-import java.lang.Exception
 import java.net.InetAddress
+
 
 class XMPPConnectionSingletone private constructor() :
     org.jivesoftware.smack.ConnectionListener {
@@ -69,14 +62,11 @@ class XMPPConnectionSingletone private constructor() :
     public lateinit var connection: XMPPTCPConnection
     public lateinit var reconnectionManagerPrimary: ReconnectionManager
 
-    private object HOLDER {
-        val INSTANCE = XMPPConnectionSingletone()
-    }
-
     companion object {
-        fun getInstance(): XMPPConnectionSingletone {
-            val instance: XMPPConnectionSingletone by lazy { HOLDER.INSTANCE }
-            return instance
+        @Volatile
+        private  var instance:XMPPConnectionSingletone? =null
+        fun getInstance()= instance ?: synchronized( this){
+            instance ?:XMPPConnectionSingletone().also { instance=it }
         }
 
     }
@@ -100,6 +90,8 @@ class XMPPConnectionSingletone private constructor() :
                             .setDebuggerEnabled(true)
                             .setResource(Resourcepart.from("Mobile"))
                         mConnection = XMPPTCPConnection(config.build())
+                        mConnection.setUseStreamManagementResumption(false)
+                        mConnection.setUseStreamManagement(false)
                         reconnectionManagerPrimary = ReconnectionManager.getInstanceFor(mConnection)
                         reconnectionManagerPrimary.setFixedDelay(1)
                         reconnectionManagerPrimary.enableAutomaticReconnection()
@@ -141,10 +133,18 @@ class XMPPConnectionSingletone private constructor() :
                             .setConnectTimeout(5000)
                             .setDebuggerEnabled(true)
                             .setResource(Resourcepart.from("Mobile"))
+
                         connection = XMPPTCPConnection(config.build())
+
                         connection.addConnectionListener(ConnectionListener())
-                        connection = XMPPTCPConnection(config.build())
-                        connection.addConnectionListener(ConnectionListener())
+                        connection.addAsyncStanzaListener(
+                            PresencePacketListener(),
+                            StanzaTypeFilter(Presence::class.java)
+                        )
+                        connection.addAsyncStanzaListener(
+                            TypeStatusListener(),
+                            StanzaTypeFilter(Message::class.java)
+                        )
                         connection.setReplyToUnknownIq(true)
                         connection.replyTimeout = 5000
                         connection.packetReplyTimeout = 5000
@@ -152,7 +152,7 @@ class XMPPConnectionSingletone private constructor() :
                         dm.autoReceiptMode = DeliveryReceiptManager.AutoReceiptMode.always
                         dm.autoAddDeliveryReceiptRequests()
                         dm.addReceiptReceivedListener(DeliveryListener())
-                        connection.setUseStreamManagementResumption(true)
+                        connection.setUseStreamManagementResumption(false)
                         connection.setUseStreamManagement(true)
                         val reconnectionManagerSeconday =
                             ReconnectionManager.getInstanceFor(connection)

@@ -48,4 +48,7 @@ interface ChattingDao {
 
     @Query("UPDATE ChatEntityModel set status=5 WHERE  status=4 and  msgid in (:chat) ")
     fun setChatReceivedRead(chat:List<String>)
+    @Query("SELECT distinct chats.username as username,(SELECT chat.message FROM ChatEntityModel as chat WHERE chat.username=chats.username ORDER BY id DESC LIMIT 1) as lastMsg, (SELECT chat.timeStamp FROM ChatEntityModel as chat WHERE chat.username=chats.username ORDER BY id DESC LIMIT 1) as lastMsgTime, (SELECT count(1) FROM ChatEntityModel as chat WHERE chat.username=chats.username and status=4 ) as totalNewMsgCount From ChatEntityModel as chats ORDER BY id DESC")
+    fun getMessageViewLIst(): LiveData<List<ChatsView>>
+
 }

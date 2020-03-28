@@ -6,4 +6,8 @@
     <color name="whatsAppColor">#CDFF90</color>
     <color name="white">#ffffff</color>
     <color name="gray">#cccccc</color>
+    <color name="black">#000000</color>
+    <color name="dark_gray">#a9a9a9</color>
+    <color name="green">#7EC850</color>
+    <color name="default_text">#808080</color>
 </resources>

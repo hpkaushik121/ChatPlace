@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.sourabh.chsatplace.ui.viewModels.MessageItemViewModel" />
 
-    </data>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.ChatActivity">
+
 
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
@@ -54,6 +49,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     tools:text="@string/app_name"
+                    android:id="@+id/username"
                     android:textSize="@dimen/text_20"
                     android:textColor="@color/white"
                     android:layout_height="wrap_content"/>
@@ -62,6 +58,7 @@
                     tools:text="@string/time"
                     android:textSize="@dimen/text_10"
                     android:textColor="@color/gray"
+                    android:id="@+id/last_seen"
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
@@ -72,8 +69,6 @@
         android:id="@+id/chatList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:adapter="@{viewModel.messageAdapter}"
-        app:data="@{viewModel.listData}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/bttom_chat_boxt"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,4 +123,3 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

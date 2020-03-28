@@ -32,31 +32,27 @@ import com.sourabh.chsatplace.utilities.Utils
 import kotlin.random.Random
 
 
-class FirebaseService:FirebaseMessagingService() {
+class FirebaseService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
 
         remoteMessage.data.isNotEmpty().let {
-            Logger.verbose( "Message data payload: " + remoteMessage.data)
-            try{
-                val model=Gson().fromJson(Gson().toJson(remoteMessage.data),FirebaseMessageModel::class.java)
-                val id=model.stanzaId
-
-                if(ChatApplication.getInstance().chatRepository.checkIfExists(id).isEmpty()){
-                    XMPPConnectionSingletone.getInstance().setSecondayConnection(Constants.XMPP_NUMBER)
-
-                }
-
-            }catch (e:Exception){
+            Logger.verbose("Message data payload: " + remoteMessage.data)
+            try {
+                XMPPConnectionSingletone
+                    .getInstance()
+                    .setSecondayConnection(Constants.XMPP_NUMBER)
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
-    companion object{
 
-        fun createNotification(aMessage: String, context: Context,from:String) {
-             var notifManager: NotificationManager? = null
+    companion object {
+
+        fun createNotification(aMessage: String, context: Context, from: String) {
+            var notifManager: NotificationManager? = null
             val NOTIFY_ID = Random.nextInt(5) // ID of notification
             val id = "some_channel" // default_channel_id
             val intent: Intent

@@ -16,21 +16,21 @@ import kotlinx.android.synthetic.main.message_send_layout.view.*
 
 import android.text.format.DateFormat
 import com.google.gson.Gson
+import com.sourabh.chsatplace.ChatApplication
 import com.sourabh.chsatplace.R
 import com.sourabh.chsatplace.pojo.MessageModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
-class ChatMessageAdapter constructor(messageViewModel: MessageItemViewModel?, context: Context) :
+class ChatMessageAdapter  :
     RecyclerView.Adapter<ChatMessageAdapter.ViewHolder>() {
-    private lateinit var chatData: List<ChatEntityModel>
-    private val msgViewModel = messageViewModel
-    private val mContext = context
+    private  var chatData= ArrayList<ChatEntityModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        var inflater = LayoutInflater.from(mContext)
+        var inflater = LayoutInflater.from(parent.context)
         var view = inflater.inflate(R.layout.message_layout, parent, false)
         return ViewHolder(view)
     }
@@ -62,10 +62,10 @@ class ChatMessageAdapter constructor(messageViewModel: MessageItemViewModel?, co
             holder.item.msgSnd.text = messageModel.message
             holder.item.timeStamp.text = mDate
             when (item.KEY_STATUS) {
-                0-> holder.item.msg_status.setImageDrawable(mContext.resources.getDrawable(R.drawable.ic_message_waiting))
-                1 -> holder.item.msg_status.setImageDrawable(mContext.resources.getDrawable(R.drawable.ic_message_sent))
-                2 -> holder.item.msg_status.setImageDrawable(mContext.resources.getDrawable(R.drawable.ic_message_delivered))
-                3 -> holder.item.msg_status.setImageDrawable(mContext.resources.getDrawable(R.drawable.ic_message_read))
+                0-> holder.item.msg_status.setImageDrawable(ChatApplication.getInstance().resources.getDrawable(R.drawable.ic_message_waiting))
+                1 -> holder.item.msg_status.setImageDrawable(ChatApplication.getInstance().resources.getDrawable(R.drawable.ic_message_sent))
+                2 -> holder.item.msg_status.setImageDrawable(ChatApplication.getInstance().resources.getDrawable(R.drawable.ic_message_delivered))
+                3 -> holder.item.msg_status.setImageDrawable(ChatApplication.getInstance().resources.getDrawable(R.drawable.ic_message_read))
             }
 
         } else {
@@ -77,7 +77,7 @@ class ChatMessageAdapter constructor(messageViewModel: MessageItemViewModel?, co
     }
 
     fun updateData(data: List<ChatEntityModel>) {
-        chatData = data
+        chatData = data as ArrayList<ChatEntityModel>
         notifyDataSetChanged()
     }
 

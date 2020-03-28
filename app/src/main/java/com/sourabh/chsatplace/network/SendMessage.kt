@@ -32,7 +32,7 @@ class SendMessage constructor(message: String?, to: String?):ChatEntityListener 
             val timeDeliverd = ""
             val timeRead = ""
             val chatEntityModel = ChatEntityModel(
-                messageString, "$to@${Constants.XMPP_DOMAIN_NAME}", true, timeSent, status,
+                messageString, to!!, true, timeSent, status,
                 id, timeDeliverd, timeRead, "0", type
             )
             ChatApplication.getInstance().chatRepository.insertChats(chatEntityModel,this)

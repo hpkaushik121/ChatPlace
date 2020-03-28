@@ -11,8 +11,8 @@ class Constants {
         const val XMPP_COMMON_PASSWORD="1234"
         const val XMPP_SERVER_IP="103.248.34.62"
         const val XMPP_DOMAIN_NAME="hostingengine.tech"
-        const val XMPP_NUMBER="1234567890" // from number
-        const val XMPP_NUMBER_2="7838941249" //to number
+        const val XMPP_NUMBER="7838941249" // from number
+        lateinit var XMPP_NUMBER_2:String //to number
         var isScrollDueToAdd=true
 
         fun setKeyboardVisibilityListener(

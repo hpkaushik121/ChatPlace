@@ -17,6 +17,8 @@ import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import androidx.work.Logger
 import com.google.firebase.messaging.FirebaseMessaging
 import com.sourabh.chsatplace.common.Constants
+import com.sourabh.chsatplace.respository.DaoDatabaseAccess
+import com.sourabh.chsatplace.respository.PresenceRepository
 import java.lang.Exception
 import java.text.DateFormat
 import java.util.*
@@ -24,6 +26,7 @@ import java.util.*
 
 public class ChatApplication : Application(), ASLifeCycle.AppLifeCycle {
     lateinit var chatRepository: ChatRepository
+    lateinit var presenceRepository: PresenceRepository
 
     companion object {
         private lateinit var instance: ChatApplication
@@ -70,7 +73,9 @@ public class ChatApplication : Application(), ASLifeCycle.AppLifeCycle {
         val lifeCycle = ASLifeCycle()
         com.sourabh.chsatplace.utilities.Logger.verbose("App Started")
         registerActivityLifecycleCallbacks(lifeCycle)
-        chatRepository = ChatRepository(applicationContext)
+        val daoDatabase=DaoDatabaseAccess(applicationContext)
+        chatRepository = ChatRepository(daoDatabase.ChattingDao())
+        presenceRepository = PresenceRepository(daoDatabase.presenceDao())
         instance = this
         lifeCycle.register(this)
         val conf=Configuration.Builder().build()

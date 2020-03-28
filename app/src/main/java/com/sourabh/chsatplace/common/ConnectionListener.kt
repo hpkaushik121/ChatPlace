@@ -33,7 +33,7 @@ class ConnectionListener : ConnectionListener {
     }
 
     override fun connectionClosed() {
-        XMPPConnectionSingletone.getInstance().setSecondayConnection(Constants.XMPP_NUMBER,true)
+//        XMPPConnectionSingletone.getInstance().setSecondayConnection(Constants.XMPP_NUMBER,true)
 
     }
 
